@@ -1,6 +1,6 @@
 # Start from a Debian image with the latest version of Go installed
 # and a workspace (GOPATH) configured at /go.
-FROM golang
+FROM docker.io/economist/base-golang:latest
 
 # Copy the local package files to the container's workspace.
 ADD . $GOPATH/src/github.com/EconomistDigitalSolutions/goberry
@@ -16,11 +16,7 @@ RUN go get -u github.com/lobatt/go-junit-report && \
     go get golang.org/x/tools/cmd/vet && \
     go install
 
-# Run the outyet command by default when the container starts.
-
 COPY service.conf /etc/supervisor/conf.d/
-
-CMD ["/usr/bin/supervisord", "-c", "/etc/supervisor/conf.d/supervisord.conf"]
 
 # Document that the service listens on port 9494.
 EXPOSE 9494
